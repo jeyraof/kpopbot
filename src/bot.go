@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	irc "github.com/fluffle/goirc/client"
+	mapset "github.com/deckarep/golang-set"
 	"net/http"
 	"time"
 )
@@ -49,15 +50,18 @@ func main() {
 			select {
 			case <-ticker.C:
 				for _, article := range getKpopNews(&feed) {
-					msg := "/r/kpop - [" + article.Title + "](" + article.Link + ")"
-					c.Privmsg(ircChannel, msg)
-					fmt.Println(msg)
+					go sendMessage(c, ircChannel, "/r/kpop - [" + article.Title + "](" + article.Link + ")")
 				}
 			}
 		}
 	}()
 
 	<-quit
+}
+
+func sendMessage(c *irc.Conn, channel string, msg string) {
+	c.Privmsg(channel, msg)
+	fmt.Println(msg)
 }
 
 func getKpopNews(feed *[]Article) []Article {
@@ -82,16 +86,22 @@ func getKpopNews(feed *[]Article) []Article {
 	return newArticles
 }
 
-func getNewArticles(existing *[]Article, parsed *[]Article) []Article {
-	newArticles := *parsed
+func getNewArticles(existing, parsed *[]Article) []Article {
+	setExisting := mapset.NewSet()
+	for _, existingItem := range *existing { setExisting.Add(existingItem) }
 
-	for parsedIdx, parsedItem := range *parsed {
-		for _, extItem := range *existing {
-			if extItem == parsedItem {
-				newArticles = append(newArticles[:parsedIdx], newArticles[parsedIdx+1:]...)
-			}
-		}
+	setParsed := mapset.NewSet()
+	for _, parsedItem := range *parsed { setParsed.Add(parsedItem) }
+
+	var newArticles []Article
+	for _, diffItem := range setParsed.Difference(setExisting).ToSlice() { 
+		newArticles = append(newArticles, diffItem.(Article)) 
 	}
 
 	return newArticles
+}
+
+func shortenURL(url string) string {
+
+	return url
 }
