@@ -26,13 +26,13 @@ type Article struct {
 }
 
 func main() {
-	duration := 3 * time.Minute
+	duration := 3 * time.Second
 
 	cfg := irc.NewConfig("kpop♡")
 	cfg.Server = "irc.ozinger.org"
 	cfg.NewNick = func(n string) string { return n + "♥" }
 	c := irc.Client(cfg)
-	ircChannel := "#kpop"
+	ircChannel := "#freyja-test"
 	feed := make([]Article, 30)
 
 	quit := make(chan struct{})
