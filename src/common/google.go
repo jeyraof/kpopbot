@@ -27,6 +27,10 @@ func URLShorten(key string, url string) string {
 		return url
 	}
 
+	if len(shortURL.ID) < 1 {
+		return url
+	}
+
 	return shortURL.ID
 }
 
