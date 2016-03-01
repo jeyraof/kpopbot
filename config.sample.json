@@ -20,5 +20,6 @@
     "nickservNick": "user-nickname",
     "nickservPassword": "user-password"
   },
-  "period": 900
+  "period": 900,
+  "repository": "kpopbot - https://github.com/jeyraof/kpopbot"
 }
