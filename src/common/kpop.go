@@ -25,8 +25,8 @@ type Article struct {
 }
 
 type CrawlLog struct {
-	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
+	ID        uint      `gorm:"primary_key"`
+	CreatedAt time.Time `sql:"default:now()"`
 }
 
 func GetKpopNews() []Article {
@@ -36,7 +36,7 @@ func GetKpopNews() []Article {
 	}
 	defer resp.Body.Close()
 
-	var newFeed Feed
+	newFeed := Feed{}
 	if jsonErr := json.NewDecoder(resp.Body).Decode(&newFeed); jsonErr != nil {
 		fmt.Printf("Error: %s\n", jsonErr.Error())
 	}

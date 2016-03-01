@@ -7,6 +7,9 @@
     "sslmode": "disable",
     "user": "user"
   },
+  "google": {
+    "key": "google-api-key"
+  },
   "irc": {
     "channel": "#channel",
     "nick": "nickname",

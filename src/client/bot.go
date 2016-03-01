@@ -3,9 +3,11 @@ package main
 import (
 	"common"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	irc "github.com/fluffle/goirc/client"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
+	"time"
 )
 
 func main() {
@@ -34,6 +36,33 @@ func main() {
 	if ircErr := c.Connect(); ircErr != nil {
 		fmt.Printf("Connection error: %s\n", ircErr.Error())
 	}
+
+	// Periodic Crawl Kpopnews
+	crawlerQuit := make(chan struct{})
+	go func() {
+		ticker := time.NewTicker(5 * time.Second)
+		for {
+			select {
+			case <-ticker.C:
+				now := common.CrawlLog{CreatedAt: time.Now()}
+				db.Create(&now)
+
+				articles := common.GetKpopNews()
+				for _, article := range articles {
+					common.ArticleShorten(&config.Google, &article)
+					if err := db.Create(&article).Error; err != nil {
+						// TODO: Handle integrity error on unique constraint
+					} else {
+						// TODO: Add send IRC message for new archived item
+					}
+
+				}
+			case <-crawlerQuit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
 
 	<-ircQuit
 }

@@ -23,9 +23,14 @@ type IRCConfigType struct {
 	Channel         string `json:"channel"`
 }
 
+type GoogleConfigType struct {
+	Key string `json:"key"`
+}
+
 type ConfigType struct {
-	DB  DBConfigType  `json:"db"`
-	IRC IRCConfigType `json:"irc"`
+	DB     DBConfigType     `json:"db"`
+	Google GoogleConfigType `json:"google"`
+	IRC    IRCConfigType    `json:"irc"`
 }
 
 var Config ConfigType
