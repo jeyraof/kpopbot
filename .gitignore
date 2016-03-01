@@ -2,3 +2,5 @@ config.json
 pkg/
 .DS_Store
 
+src/golang.org
+src/github.com
