@@ -3,10 +3,9 @@ package main
 import (
 	"common"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	irc "github.com/fluffle/goirc/client"
 	"github.com/jinzhu/gorm"
-	_ "github.com/lib/pq"
+	pq "github.com/lib/pq"
 	"time"
 )
 
@@ -51,9 +50,12 @@ func main() {
 				for _, article := range articles {
 					common.ArticleShorten(&config.Google, &article)
 					if err := db.Create(&article).Error; err != nil {
-						// TODO: Handle integrity error on unique constraint
+						switch err.(*pq.Error).Code.Name() {
+						case "unique_violation":
+							// TODO: Handle integrity error on unique constraint
+						}
 					} else {
-						// TODO: Add send IRC message for new archived item
+						SendMsg(&config.IRC, c, &article)
 					}
 
 				}
@@ -65,4 +67,9 @@ func main() {
 	}()
 
 	<-ircQuit
+}
+
+func SendMsg(config *common.IRCConfigType, irc *irc.Conn, article *common.Article) {
+	msg := "/r/kpop - [" + (*article).Title + "](" + (*article).Link + ")"
+	(*irc).Privmsg((*config).Channel, msg)
 }
