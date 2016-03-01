@@ -28,7 +28,12 @@ func main() {
 	ircQuit := make(chan struct{})
 
 	// Handler for IRC actions
-	c.HandleFunc(irc.CONNECTED, func(conn *irc.Conn, line *irc.Line) { conn.Join(config.IRC.Channel) })
+	c.HandleFunc(irc.CONNECTED, func(conn *irc.Conn, line *irc.Line) {
+		conn.Join(config.IRC.Channel)
+		if config.IRC.Nickserv != "" {
+			conn.Privmsg(config.IRC.Nickserv, fmt.Sprintf("로그인 %s %s", config.IRC.NickservNick, config.IRC.NickservPassword))
+		}
+	})
 	c.HandleFunc(irc.DISCONNECTED, func(conn *irc.Conn, line *irc.Line) { ircQuit <- struct{}{} })
 
 	// IRC Connect!
@@ -39,7 +44,7 @@ func main() {
 	// Periodic Crawl Kpopnews
 	crawlerQuit := make(chan struct{})
 	go func() {
-		ticker := time.NewTicker(5 * time.Second)
+		ticker := time.NewTicker(config.Period * time.Second)
 		for {
 			select {
 			case <-ticker.C:
@@ -50,6 +55,7 @@ func main() {
 				for _, article := range articles {
 					common.ArticleShorten(&config.Google, &article)
 					if err := db.Create(&article).Error; err != nil {
+						// Error Code Reference: https://github.com/lib/pq/blob/master/error.go#L78
 						switch err.(*pq.Error).Code.Name() {
 						case "unique_violation":
 							// TODO: Handle integrity error on unique constraint

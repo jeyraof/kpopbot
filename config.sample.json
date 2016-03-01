@@ -14,6 +14,11 @@
     "channel": "#channel",
     "nick": "nickname",
     "nickAlternative": "alternative_nickname",
-    "server": "irc.server.com"
-  }
+    "server": "irc.server.com",
+
+    "nickserv": ">_<",
+    "nickservNick": "user-nickname",
+    "nickservPassword": "user-password"
+  },
+  "period": 900
 }

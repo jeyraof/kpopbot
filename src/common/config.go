@@ -21,6 +21,10 @@ type IRCConfigType struct {
 	NickAlternative string `json:"nickAlternative"`
 	Server          string `json:"server"`
 	Channel         string `json:"channel"`
+
+	Nickserv         string `json:"nickserv"`
+	NickservNick     string `json:"nickservNick"`
+	NickservPassword string `json:"nickservPassword"`
 }
 
 type GoogleConfigType struct {
@@ -28,6 +32,7 @@ type GoogleConfigType struct {
 }
 
 type ConfigType struct {
+	Period uint             `json:"period"`
 	DB     DBConfigType     `json:"db"`
 	Google GoogleConfigType `json:"google"`
 	IRC    IRCConfigType    `json:"irc"`
