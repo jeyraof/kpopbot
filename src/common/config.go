@@ -13,6 +13,7 @@ type DBConfigType struct {
 	Password string `json:"password"`
 	Port     string `json:"port"`
 	Name     string `json:"name"`
+	SSLMode  string `json:"sslmode"`
 }
 
 type IRCConfigType struct {
@@ -45,8 +46,9 @@ func InitConfig() error {
 func BuildURIFrom(db *DBConfigType) string {
 	config := *db
 	return fmt.Sprintf(
-		"postgresql://%s:%s@%s:%s/%s?sslmode=disable",
+		"postgresql://%s:%s@%s:%s/%s?sslmode=%s",
 		config.User, config.Password,
 		config.Host, config.Port,
-		config.Name)
+		config.Name,
+		config.SSLMode)
 }

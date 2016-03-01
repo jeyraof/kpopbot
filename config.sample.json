@@ -1,0 +1,16 @@
+{
+  "db": {
+    "host": "host",
+    "name": "dbname",
+    "password": "password",
+    "port": "port",
+    "sslmode": "disable",
+    "user": "user"
+  },
+  "irc": {
+    "channel": "#channel",
+    "nick": "nickname",
+    "nickAlternative": "alternative_nickname",
+    "server": "irc.server.com"
+  }
+}
