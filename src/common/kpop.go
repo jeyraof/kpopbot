@@ -19,9 +19,10 @@ type Feed struct {
 }
 
 type Article struct {
-	ID    string `json:"id" gorm:"primary_key"`
-	Title string `json:"title"`
-	Link  string `json:"url"`
+	ID        string    `json:"id" gorm:"primary_key"`
+	Title     string    `json:"title"`
+	Link      string    `json:"url"`
+	CrawledAt time.Time `sql:"default:now()"`
 }
 
 type CrawlLog struct {

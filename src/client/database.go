@@ -24,13 +24,17 @@ func main() {
 	case "drop_all":
 		db := configure()
 		db.DropTable(tables...)
+	case "reload_all":
+		db := configure()
+		db.DropTable(tables...)
+		db.CreateTable(tables...)
 	default:
 		helpMessage()
 	}
 }
 
 func helpMessage() {
-	fmt.Println("./database [create_all, drop_all]")
+	fmt.Println("./database [create_all, drop_all, reload_all]")
 	os.Exit(1)
 }
 
