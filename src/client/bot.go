@@ -44,7 +44,7 @@ func main() {
 	// Periodic Crawl Kpopnews
 	crawlerQuit := make(chan struct{})
 	go func() {
-		ticker := time.NewTicker(config.Period * time.Second)
+		ticker := time.NewTicker(time.Duration(config.Period) * time.Second)
 		for {
 			select {
 			case <-ticker.C:
