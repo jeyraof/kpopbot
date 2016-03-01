@@ -36,7 +36,7 @@ func GetKpopNews() []Article {
 	}
 	defer resp.Body.Close()
 
-	newFeed := Feed{}
+	var newFeed Feed
 	if jsonErr := json.NewDecoder(resp.Body).Decode(&newFeed); jsonErr != nil {
 		fmt.Printf("Error: %s\n", jsonErr.Error())
 	}

@@ -1,14 +1,11 @@
 package main
 
 import (
-	// "encoding/json"
 	"common"
 	"fmt"
 	irc "github.com/fluffle/goirc/client"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
-	// "net/http"
-	// "time"
 )
 
 func main() {
@@ -37,9 +34,6 @@ func main() {
 	if ircErr := c.Connect(); ircErr != nil {
 		fmt.Printf("Connection error: %s\n", ircErr.Error())
 	}
-
-	// a := common.GetKpopNews()
-	// fmt.Println(a)
 
 	<-ircQuit
 }

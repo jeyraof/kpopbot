@@ -45,7 +45,7 @@ func InitConfig() error {
 func BuildURIFrom(db *DBConfigType) string {
 	config := *db
 	return fmt.Sprintf(
-		"postgresql://%s:%s@%s:%s/%s",
+		"postgresql://%s:%s@%s:%s/%s?sslmode=disable",
 		config.User, config.Password,
 		config.Host, config.Port,
 		config.Name)
