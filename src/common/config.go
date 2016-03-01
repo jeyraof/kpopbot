@@ -31,10 +31,19 @@ type GoogleConfigType struct {
 	Key string `json:"key"`
 }
 
+type TwitterConfigType struct {
+	ConsumerKey       string `json:"consumerKey"`
+	ConsumerSecret    string `json:"consumerSecret"`
+	AccessToken       string `json:"accessToken"`
+	AccessTokenSecret string `json:"accessTokenSecret"`
+}
+
 type ConfigType struct {
-	DB     DBConfigType     `json:"db"`
-	Google GoogleConfigType `json:"google"`
-	IRC    IRCConfigType    `json:"irc"`
+	DB  DBConfigType  `json:"db"`
+	IRC IRCConfigType `json:"irc"`
+
+	Google  GoogleConfigType  `json:"google"`
+	Twitter TwitterConfigType `json:"twitter"`
 
 	Period     uint   `json:"period"`
 	Repository string `json:"repository"`

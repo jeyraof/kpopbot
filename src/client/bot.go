@@ -70,6 +70,7 @@ func main() {
 						}
 					} else {
 						SendMsg(&config.IRC, c, &article)
+						common.UpdateStatus(&config.Twitter, &article)
 					}
 
 				}
