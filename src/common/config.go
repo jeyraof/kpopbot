@@ -32,10 +32,12 @@ type GoogleConfigType struct {
 }
 
 type ConfigType struct {
-	Period uint             `json:"period"`
 	DB     DBConfigType     `json:"db"`
 	Google GoogleConfigType `json:"google"`
 	IRC    IRCConfigType    `json:"irc"`
+
+	Period     uint   `json:"period"`
+	Repository string `json:"repository"`
 }
 
 var Config ConfigType

@@ -35,6 +35,14 @@ func main() {
 		}
 	})
 	c.HandleFunc(irc.DISCONNECTED, func(conn *irc.Conn, line *irc.Line) { ircQuit <- struct{}{} })
+	c.HandleFunc(irc.PRIVMSG, func(conn *irc.Conn, line *irc.Line) {
+		message := line.Args[1]
+		me := conn.Me()
+
+		if len(message) >= len(me.Nick) && message[:len(me.Nick)] == me.Nick {
+			conn.Privmsg(config.IRC.Channel, config.Repository)
+		}
+	})
 
 	// IRC Connect!
 	if ircErr := c.Connect(); ircErr != nil {

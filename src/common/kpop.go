@@ -48,7 +48,3 @@ func GetKpopNews() []Article {
 
 	return parsed
 }
-
-// func GetNewKpopArticles(feed *[]Article) []Article {
-
-// }
