@@ -50,7 +50,7 @@ func main() {
 
 	// Periodic Crawl Kpopnews
 	crawlerQuit := make(chan struct{})
-	// go parser.RedditRoutine(&config, &db, c, crawlerQuit, "/r/kpop")
+	go parser.RedditRoutine(&config, &db, c, crawlerQuit, "/r/kpop")
 	go parser.IdologyRoutine(&config, &db, c, crawlerQuit)
 
 	<-ircQuit

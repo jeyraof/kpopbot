@@ -65,7 +65,7 @@ func IdologyRoutine(
 				} else {
 					msg := common.BuildMessage(target, &article)
 					irc.Privmsg(config.IRC.Channel, msg)
-					// common.UpdateStatus(&config.Twitter, msg)
+					common.UpdateStatus(&config.Twitter, msg)
 				}
 
 			}
