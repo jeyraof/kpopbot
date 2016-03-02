@@ -45,7 +45,6 @@ type ConfigType struct {
 	Google  GoogleConfigType  `json:"google"`
 	Twitter TwitterConfigType `json:"twitter"`
 
-	Period     uint   `json:"period"`
 	Repository string `json:"repository"`
 }
 

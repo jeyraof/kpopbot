@@ -42,10 +42,11 @@ func GetIdologyNews() []common.Article {
 func IdologyRoutine(
 	config *common.ConfigType,
 	db *gorm.DB, irc *irc.Conn,
-	crawlerQuit <-chan struct{}) {
+	crawlerQuit <-chan struct{},
+	period uint) {
 
 	target := "/idology"
-	ticker := time.NewTicker(time.Duration(config.Period) * time.Second)
+	ticker := time.NewTicker(time.Duration(period) * time.Second)
 	for {
 		select {
 		case <-ticker.C:
