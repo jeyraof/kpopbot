@@ -16,16 +16,14 @@ func main() {
 	var tables = []interface{}{
 		&common.Article{},
 		&common.CrawlLog{}}
+	db := configure()
 
 	switch os.Args[1] {
 	case "create_all":
-		db := configure()
 		db.CreateTable(tables...)
 	case "drop_all":
-		db := configure()
 		db.DropTable(tables...)
 	case "reload_all":
-		db := configure()
 		db.DropTable(tables...)
 		db.CreateTable(tables...)
 	default:

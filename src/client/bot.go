@@ -5,8 +5,7 @@ import (
 	"fmt"
 	irc "github.com/fluffle/goirc/client"
 	"github.com/jinzhu/gorm"
-	pq "github.com/lib/pq"
-	"time"
+	"parser"
 )
 
 func main() {
@@ -51,40 +50,8 @@ func main() {
 
 	// Periodic Crawl Kpopnews
 	crawlerQuit := make(chan struct{})
-	go func() {
-		ticker := time.NewTicker(time.Duration(config.Period) * time.Second)
-		for {
-			select {
-			case <-ticker.C:
-				now := common.CrawlLog{CreatedAt: time.Now()}
-				db.Create(&now)
-
-				articles := common.GetKpopNews()
-				for _, article := range articles {
-					common.ArticleShorten(&config.Google, &article)
-					if err := db.Create(&article).Error; err != nil {
-						// Error Code Reference: https://github.com/lib/pq/blob/master/error.go#L78
-						switch err.(*pq.Error).Code.Name() {
-						case "unique_violation":
-							// TODO: Handle integrity error on unique constraint
-						}
-					} else {
-						SendMsg(&config.IRC, c, &article)
-						common.UpdateStatus(&config.Twitter, &article)
-					}
-
-				}
-			case <-crawlerQuit:
-				ticker.Stop()
-				return
-			}
-		}
-	}()
+	// go parser.RedditRoutine(&config, &db, c, crawlerQuit, "/r/kpop")
+	go parser.IdologyRoutine(&config, &db, c, crawlerQuit)
 
 	<-ircQuit
-}
-
-func SendMsg(config *common.IRCConfigType, irc *irc.Conn, article *common.Article) {
-	msg := "/r/kpop - [" + (*article).Title + "](" + (*article).Link + ")"
-	(*irc).Privmsg((*config).Channel, msg)
 }
