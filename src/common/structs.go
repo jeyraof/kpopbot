@@ -20,5 +20,5 @@ type CrawlLog struct {
 }
 
 func BuildMessage(target string, article *Article) string {
-	return fmt.Sprintf("%s - [%s](%s)", target, article.Title, article.Link)
+	return fmt.Sprintf("%s - [%s](%s) #kpop #k_pop", target, article.Title, article.Link)
 }
