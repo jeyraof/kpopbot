@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"html"
 	"time"
 )
 
@@ -21,4 +22,8 @@ type CrawlLog struct {
 
 func BuildMessage(target string, article *Article) string {
 	return fmt.Sprintf("%s %s — %s", article.Title, article.Link, target)
+}
+
+func ArticleUnescape(article *Article) {
+	article.Title = html.UnescapeString(article.Title)
 }
