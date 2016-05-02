@@ -68,7 +68,7 @@ func RedditRoutine(
 			for _, article := range articles {
 				article.Target = target
 				common.ArticleShorten(&config.Google, &article)
-                common.ArticleUnescape(&article)
+				common.ArticleUnescape(&article)
 				if err := db.Create(&article).Error; err != nil {
 					// Error Code Reference: https://github.com/lib/pq/blob/master/error.go#L78
 					switch err.(*pq.Error).Code.Name() {

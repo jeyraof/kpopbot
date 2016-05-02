@@ -26,4 +26,5 @@ func BuildMessage(target string, article *Article) string {
 
 func ArticleUnescape(article *Article) {
 	article.Title = html.UnescapeString(article.Title)
+	article.Link = html.UnescapeString(article.Link)
 }
